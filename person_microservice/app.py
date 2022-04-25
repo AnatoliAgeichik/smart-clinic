@@ -28,4 +28,5 @@ from views.patient import patient_view
 app.register_blueprint(patient_view)
 
 from views.booking.booking import booking_view
+
 app.register_blueprint(booking_view)

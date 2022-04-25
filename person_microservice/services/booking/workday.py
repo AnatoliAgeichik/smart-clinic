@@ -4,10 +4,12 @@ from config import db
 
 
 def send_message_about_cancelled_appointment(workday_id):
-    planned_appointments = Appointment.query.filter((Appointment.workday_id == workday_id) | (Appointment.status == "planned"))
-    #TODO send a notification to these users
-    
-    
+    planned_appointments = Appointment.query.filter(
+        (Appointment.workday_id == workday_id) | (Appointment.status == "planned")
+    )
+    # TODO send a notification to these users
+
+
 def delete_all_appointment_in_workday(workday_id=id):
     appointments = Appointment.query.filter((Appointment.workday_id == workday_id))
     for appointment in appointments:

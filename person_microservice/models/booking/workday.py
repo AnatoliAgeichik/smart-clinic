@@ -23,10 +23,10 @@ class Appointment(db.Model):
     end_time = db.Column(db.Time)
     description = db.Column(db.Text)
     STATUS_TYPES = [
-       ('empty', 'empty'),
-       ('planned', 'planned'),
-       ('cancelled_by_doctor', 'cancelled_by_doctor'),
-       ('cancelled_by_patient', 'cancelled_by_patient'),
-       ('completed', 'completed'),
+        ("empty", "empty"),
+        ("planned", "planned"),
+        ("cancelled_by_doctor", "cancelled_by_doctor"),
+        ("cancelled_by_patient", "cancelled_by_patient"),
+        ("completed", "completed"),
     ]
-    status = db.Column(ChoiceType(STATUS_TYPES, impl=db.String()), default='empty')
+    status = db.Column(ChoiceType(STATUS_TYPES, impl=db.String()), default="empty")

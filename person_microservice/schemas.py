@@ -91,5 +91,6 @@ class AppointmentSchema(Schema):
     description = fields.String()
     status = fields.String()
 
+
 appointment_schema = AppointmentSchema()
 appointments_schema = AppointmentSchema(many=True)

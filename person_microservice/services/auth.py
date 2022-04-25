@@ -51,7 +51,9 @@ def create_token(email, id):
     }
     access_token = jwt.encode(payload, app.config["SECRET_KEY"], os.getenv("ALGORITHM"))
     payload["grant_type"] = "refresh"
-    refresh_token = jwt.encode(payload, app.config["SECRET_KEY"], os.getenv("ALGORITHM"))
+    refresh_token = jwt.encode(
+        payload, app.config["SECRET_KEY"], os.getenv("ALGORITHM")
+    )
     return {"access_token": access_token, "refresh_token": refresh_token}
 
 

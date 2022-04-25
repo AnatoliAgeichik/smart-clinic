@@ -31,7 +31,8 @@ def create_doctor(id):
     db.session.add(new_doctor)
     db.session.commit()
     return Response(
-        doctor_schema.dumps(new_doctor), status=201, 
+        doctor_schema.dumps(new_doctor),
+        status=201,
     )
 
 
