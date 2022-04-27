@@ -17,6 +17,7 @@ from services.booking.workday import (
     validation_access,
 )
 from services.services import get_object_by_id
+from services.notification import send_notification
 from config import db
 
 
@@ -101,9 +102,7 @@ def update_workday(user_id, workday_id):
     workday_data = workday_schema.load(request.json)
     send_message_about_cancelled_appointment(workday_id=workday_id)
     delete_all_appointment_in_workday(workday_id=workday_id)
-    import pdb
 
-    pdb.set_trace()
     Workday.query.filter_by(id=workday_id).update(workday_data)
     db.session.commit()
     create_appointments_for_workday(workday_data, workday)

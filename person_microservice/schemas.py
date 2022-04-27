@@ -85,7 +85,7 @@ workdays_schema = WorkdaySchema(many=True)
 class AppointmentSchema(Schema):
     id = fields.Integer()
     workday_id = fields.Integer()
-    patient_id = fields.Integer()
+    patient_id = fields.Integer(allow_none=True)
     start_time = fields.Time()
     end_time = fields.Time()
     description = fields.String()
@@ -94,3 +94,14 @@ class AppointmentSchema(Schema):
 
 appointment_schema = AppointmentSchema()
 appointments_schema = AppointmentSchema(many=True)
+
+
+class NotificationSchema(Schema):
+    id = fields.Integer()
+    recipient_id = fields.Integer()
+    datetime = fields.DateTime()
+    message = fields.String()
+
+
+notification_schema = NotificationSchema()
+notifications_schema = NotificationSchema(many=True)

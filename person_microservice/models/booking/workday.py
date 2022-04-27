@@ -18,15 +18,14 @@ class Workday(db.Model):
 class Appointment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     workday_id = db.Column(db.Integer, db.ForeignKey("workday.id"))
-    patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
+    patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"), nullable=False)
     start_time = db.Column(db.Time)
     end_time = db.Column(db.Time)
     description = db.Column(db.Text)
     STATUS_TYPES = [
         ("empty", "empty"),
         ("planned", "planned"),
-        ("cancelled_by_doctor", "cancelled_by_doctor"),
-        ("cancelled_by_patient", "cancelled_by_patient"),
+        ("cancelled", "cancelled"),
         ("completed", "completed"),
     ]
     status = db.Column(ChoiceType(STATUS_TYPES, impl=db.String()), default="empty")

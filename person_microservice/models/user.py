@@ -1,4 +1,5 @@
 from config import db
+from models.notification import Notification
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -15,7 +16,8 @@ class User(db.Model):
     )
     doctor_id = db.Column(db.Integer, db.ForeignKey("doctor.id"))
     patient_id = db.Column(db.Integer, db.ForeignKey("patient.id"))
-
+    notifications_received = db.relationship("Notification")
+    
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
