@@ -8,7 +8,10 @@ from producer import Producer
 
 load_dotenv()
 
-REDIS_HOST = "127.0.0.1"
+from celery_work.tasks import login_app_email
+
+login_app_email.apply_async(())
+
 prod = Producer("mystream", host=REDIS_HOST, port=6379, db=0)
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URI")
@@ -16,7 +19,6 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 CORS(app)
 
-r = Redis(host=REDIS_HOST, port=6379, db=0)
 from views.auth import my_view
 
 app.register_blueprint(my_view)
