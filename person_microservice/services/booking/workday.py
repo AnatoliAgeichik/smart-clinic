@@ -21,13 +21,13 @@ def send_message_about_cancelled_appointment(workday_id):
         (Appointment.workday_id == workday_id) & (Appointment.status == "planned")
     )
     for appointment in planned_appointments:
-        
+
         notification_data = {
             "recipient_id": get_user_from_patient_id(appointment.patient_id),
-            "message": "appointment cancelled"
+            "message": "appointment cancelled",
         }
         create_notification(notification_data)
-        
+
     # TODO send a notification to these users
 
 
@@ -43,5 +43,6 @@ def validation_access(user, user_id, workday_id):
         return 403
     if not (user.doctor or user.doctor.workday):
         return 404
+
 
 # def change_appointment_status(appointment)
