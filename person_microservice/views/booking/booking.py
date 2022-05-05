@@ -17,7 +17,7 @@ from services.booking.workday import (
     validation_access,
 )
 from services.services import get_object_by_id
-from services.notification import send_notification
+from services.notification import notification_appointment_action
 from config import db
 
 
@@ -165,12 +165,14 @@ def update_appointment(user_id, workday_id, appointment_id):
     response_status = validation_access(user, user_id, workday_id)
     if response_status:
         return Response(status=response_status)
-
+    patient_id_prev = Appointment.query.filter_by(id=appointment_id).one().patient_id
     appointment_data = appointment_schema.load(request.json)
     Appointment.query.filter((Appointment.id == appointment_id)).update(
         appointment_data
     )
     db.session.commit()
+    appointment_new = Appointment.query.filter_by(id=appointment_id).one()
+    notification_appointment_action(patient_id_prev, appointment_new)
 
     return Response(status=200)
 

@@ -8,9 +8,6 @@ from services.services import is_equal_user_from_request
 
 
 def create_notification(data):
-    import pdb
-
-    pdb.set_trace()
     notification = Notification(**data)
     db.session.add(notification)
     db.session.commit()
