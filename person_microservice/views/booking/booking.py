@@ -192,3 +192,28 @@ def delete_appointment(user_id, workday_id, appointment_id):
     db.session.commit()
 
     return Response(status=204)
+
+
+@booking_view.route("/appointments", methods=["Get"])
+def get_all_appointments():
+    filters = dict(request.args)
+    start_time_interval = (
+        filters["start_time_interval"] if filters["start_time_interval"] else ""
+    )
+    del filters["start_time_interval"]
+    end_time_interval = (
+        filters["end_time_interval"] if filters["end_time_interval"] else ""
+    )
+    del filters["end_time_interval"]
+    appoitments = (
+        Appointment.query.filter_by(**filters)
+        .filter(
+            (Appointment.start_time >= start_time_interval)
+            & (Appointment.end_time <= end_time_interval)
+        )
+        .all()
+    )
+
+    return Response(
+        appointments_schema.dumps(appoitments), status=200, mimetype="application/json"
+    )
