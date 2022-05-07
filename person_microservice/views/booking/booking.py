@@ -213,7 +213,39 @@ def get_all_appointments():
         )
         .all()
     )
-
     return Response(
         appointments_schema.dumps(appoitments), status=200, mimetype="application/json"
+    )
+
+
+@booking_view.route("/appointments-list", methods=["Get"])
+def get_all_appointments_list():
+    workday_filters = {}
+    if request.args.get("specialization"):
+        workday_filters["specialization"] = request.args.get("specialization")
+    if request.args.get("place"):
+        workday_filters["place"] = request.args.get("place")
+    if request.args.get("date"):
+        workday_filters["date"] = request.args.get("date")
+    workdays = Workday.query.filter_by(**workday_filters).all()
+    workdays_id = [workday.id for workday in workdays]
+    appointment_filters = {}
+    appointment_filters["start_time"] = (
+        request.args.get("start_time") if request.args.get("start_time") else ""
+    )
+    appointment_filters["end_time"] = (
+        request.args.get("end_time") if request.args.get("end_time") else ""
+    )
+    appointment_filters["status"] = (
+        request.args.get("status") if request.args.get("status") else ""
+    )
+    appointments = Appointment.query.filter(
+        (Appointment.workday_id.in_(workdays_id))
+        & (Appointment.start_time >= appointment_filters["start_time"])
+        & (Appointment.end_time <= appointment_filters["end_time"])
+        & (Appointment.status.startswith(appointment_filters["status"]))
+    ).all()
+
+    return Response(
+        appointments_schema.dumps(appointments), status=200, mimetype="application/json"
     )

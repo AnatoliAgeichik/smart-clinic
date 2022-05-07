@@ -13,6 +13,7 @@ class Workday(db.Model):
     description = db.Column(db.Text)
     place = db.Column(db.String(256))
     appointment = db.relationship("Appointment", cascade="all, delete")
+    doctor = db.relationship("Doctor")
 
 
 class Appointment(db.Model):
